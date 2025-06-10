@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE <!DOCTYPE html>
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Gửi thư</title>
 </head>
 <body>
-    <input id="to" placeholder="Tên người nhận" />
-    <textarea id="message" placeholder="Nội dung thư"></textarea>
-    <button onclick="sendLetter()">Gửi thư</button>
+  <h2>Gửi thư cho bạn</h2>
+  <input id="to" placeholder="Tên người nhận"><br>
+  <textarea id="message" placeholder="Nội dung thư"></textarea><br>
+  <button onclick="sendLetter()">Gửi thư</button>
 
+  <script>
+    function sendLetter() {
+      const to = document.getElementById("to").value.trim();
+      const message = document.getElementById("message").value.trim();
 
+      if (!to || !message) return alert("Nhập đầy đủ thông tin");
 
-
-    <script>
-        function sendLetter() {
-  const to = document.getElementById("to").value;
-  const message = document.getElementById("message").value;
-
-  fetch("https://script.google.com/macros/s/AKfycbzrtpwY44zDQMZOJz3Q9arbOKOVogzzT8EOZPL5-8KZHLxgxczGLkF4PTB7ob4PY4Ru/exec", {
-    method: "POST",
-    body: new URLSearchParams({ to, message }),
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      fetch("https://script.google.com/macros/s/AKfycbyRdykyUvQt9DjzQ1M81_mhAPFgRgXyGdkqpyM82eD__3Oj4TvXkeavXI1UUFfCaXVq4w/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to, message })
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (res.status === "ok") {
+          alert("Gửi thành công!");
+          const link = location.origin + location.pathname + "?to=" + encodeURIComponent(to);
+          alert("Link thư: " + link);
+        } else {
+          alert("Lỗi: " + res.message);
+        }
+      })
+      .catch(err => alert("Lỗi kết nối: " + err));
     }
-  })
-  .then(res => res.text())
-  .then(data => {
-    alert("Đã gửi thư thành công!");
-  })
-  .catch(err => {
-    alert("Gửi thất bại: " + err);
-  });
-}
-
-    </script>
+  </script>
 </body>
 </html>
