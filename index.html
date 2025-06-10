@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="to" placeholder="Tên người nhận" />
+    <textarea id="message" placeholder="Nội dung thư"></textarea>
+    <button onclick="sendLetter()">Gửi thư</button>
+
+
+
+
+    <script>
+        function sendLetter() {
+  const to = document.getElementById("to").value;
+  const message = document.getElementById("message").value;
+
+  fetch("https://script.google.com/macros/s/AKfycbzrtpwY44zDQMZOJz3Q9arbOKOVogzzT8EOZPL5-8KZHLxgxczGLkF4PTB7ob4PY4Ru/exec", {
+    method: "POST",
+    body: new URLSearchParams({ to, message }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    }
+  })
+  .then(res => res.text())
+  .then(data => {
+    alert("Đã gửi thư thành công!");
+  })
+  .catch(err => {
+    alert("Gửi thất bại: " + err);
+  });
+}
+
+    </script>
+</body>
+</html>
